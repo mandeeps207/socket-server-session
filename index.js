@@ -3,6 +3,8 @@ import express from 'express';
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import session from "express-session";
+import path from 'path';
+const __dirname = path.resolve();
 
 const app = express();
 const httpServer = createServer(app);
@@ -19,8 +21,10 @@ const sessionMiddleware = session({
 
 // Middlewares
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(sessionMiddleware);
 io.engine.use(sessionMiddleware);
+
 
 app.get('/', (req, res) => {
     res.render('index');
